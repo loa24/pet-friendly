@@ -11,7 +11,10 @@
 8) Nails_trimming ( 20 SAR )
 9) Teeth_cleaning ( 15 SAR )
 
+** Online services **
+10) Online meeting with a doctor ( 20 SAR )
+
 ** General services **
-10) Show appointments
-11) Cancel appointment
-12) Report about an animal in need
+11) Show appointments
+12) Cancel appointment
+13) Report about an animal in need

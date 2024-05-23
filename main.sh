@@ -36,3 +36,54 @@ printf "\nPlease choose one of the following services by entering its number: \n
 cat services.txt
 read ch
 
+while [ $ch -lt 1 ] || [ $ch -gt 12 ] 2> /dev/null; do
+	read -p "Please enetr a valid number: " ch
+done
+
+if [ $ch -ge 1 ] && [ $ch -le 4 ]; then
+	printf "" #  Clinik services
+
+elif [ $ch -le 9 ]; then
+	printf "" # Home services
+
+else
+	num=$(grep '$name' appointments.txt | cut -d " " -f 3)
+
+	case $ch in
+		"10") # do something
+		;;
+
+		"11")
+			flag=0
+			if [ $num -ne 0 ]; then
+				echo "Payed appointments:"
+				grep -A 2 '$name' appointments.txt | awk 'NR > 1'
+				flag=1
+			fi
+			echo " "
+
+			if [ -s "receipt.txt" ]; then
+				echo "Unpayed appointments:"
+				count=$num
+				while read line; do
+					count=$((count + 1))
+					echo "$num) $line"
+				done < receipt.txt
+				flag=1
+			fi
+			echo " "
+
+			if [ "$flag" -eq 0 ]; then
+				echo "You have no appointments yet."
+			fi
+			echo " "
+		;;
+
+		"12") # //
+		;;
+
+		"13") # //
+		;;
+	esac
+
+fi
