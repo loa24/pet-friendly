@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# login & sign in {
+
 read -p "Welcome to Pet Friendly clinic! Please provide us with your name: " name
 
 if  grep -q "$name" logins.txt; then
@@ -26,4 +28,11 @@ else
 	echo "$name : $pass" >> logins.txt
 	echo "Registeration complete!"
 fi
+
+# } end of login & sign in
+
+
+printf "\nPlease choose one of the following services by entering its number: \n\n"
+cat services.txt
+read ch
 
