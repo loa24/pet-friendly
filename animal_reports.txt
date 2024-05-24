@@ -1,0 +1,4 @@
+Name: Lama
+Description: A small brown dog with a blue collar
+Location: Main Street near the park
+------------------------
