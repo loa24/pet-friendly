@@ -1,7 +1,12 @@
 
+
+
 Jana [ 2 ] :
-1) service 1
-2) service 2
+first service ( 29 SAR )
+new second service ( 56 SAR )
 
 
 Lama [ 0 ] :
+
+
+Lamar [ 0 ] :
