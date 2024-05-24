@@ -181,6 +181,9 @@ echo "Thank you for choosing our clinic. Hava a nice day!"
 # confirming the payment process by moving the
 # services from "receipt.txt" to "appointments.txt" {
 
+added=$(cat receipt.txt | wc -l)
+sed -i "s/$name \[ $num \]/$name \[ $(($num+$added)) \]/" appointments.txt
+
 while read line; do
         sed -i "/$name /a\
 $line" appointments.txt
