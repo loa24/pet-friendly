@@ -32,11 +32,11 @@ fi
 
 # } end of login & sign in
 
-printf "" > receipt.txt # receipt.txt serves as a buffer to store requested services by the user
+# printf "" > receipt.txt # receipt.txt serves as a buffer to store requested services by the user
 
 # provide services to user {
 ext=0
-until [ ext != 0 ]; do # loop to enable the user to select multiple services
+until [ $ext -ne 0 ]; do # loop to enable the user to select multiple services
 
 printf "\nPlease choose one of the following services by entering its number: \n\n"
 cat services.txt
@@ -49,19 +49,19 @@ done
 
 if [ $ch -ge 1 ] && [ $ch -le 4 ]; then
 	printf "" #  Clinik services
+	./services.sh $name $ch
 
 elif [ $ch -le 9 ]; then
 	printf "" # Home services
 
 else
-	num=$(grep "$name" appointments.txt | cut -d " " -f 3)
-	# echo "num is: $num"
+	num=$(grep -w "$name" appointments.txt | cut -d " " -f 3)
 
 	show_appoint(){
                  flag=0
                  if [ $num -ne 0 ]; then
                          echo "Payed appointments:"
-			 grep -A $num -i "$name" appointments.txt | awk '{ if ( NR == 1) { print $0 } else { print NR - 1")", $0 } }'
+			 grep -A $num -i -w "$name" appointments.txt | awk '{ if ( NR == 1) { print $0 } else { print NR - 1")", $0 } }'
                          flag=1
                          echo " "
                  fi
@@ -136,11 +136,55 @@ else
 
 fi
 
+if [ $ch -ne 14 ]; then
+	printf "\nWould you like another service?\n"
+	read -p "Enter \"Y\" for yes or \"N\" for no: " ans
+
+	if [ $ans != "Y" ] && [ $ans  != "y" ]; then
+		ext=1
+	fi
+fi
+
 done
 # } end of services providing
 
 # payment {
+		# calc total here
 
 
+printf "Would you like to pay with:\n1-Cash\n2-Credit Card\n"
+read pay
+
+while [ $pay -ne 1 ] && [ $pay -ne 2 ] 2> /dev/null; do
+	read -p "Please enter a valid number: " pay
+done
+
+case $pay in
+
+	"1")
+		echo "You would be able to pay once you recieve the service"
+	;;
+
+	"2")
+		read -p "please enter your card number: " cardNum
+		read -p "Please enter the name on the card: " cardName
+		read -p "please enter the expiration date of the card in this format YY/MM: " cardDate
+
+		printf "\nThe payment process has been completed successfully\n"
+	;;
+esac
+
+echo "Thank you for choosing our clinic. Hava a nice day!"
 
 # } end of payment
+
+# confirming the payment process by moving the
+# services from "receipt.txt" to "appointments.txt" {
+
+while read line; do
+        sed -i "/$name /a\
+$line" appointments.txt
+done < receipt.txt
+
+# } end of moving
+
