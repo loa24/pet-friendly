@@ -47,12 +47,13 @@ while [ $ch -lt 1 ] || [ $ch -gt 13 ] 2> /dev/null; do # troubleshoot for invali
 	read -p "Please enetr a valid number: " ch
 done
 
+num=$(grep -w "$name" appointments.txt | cut -d " " -f 3)
+
 if [ $ch -ge 1 ] && [ $ch -le 9 ]; then
 
 	bash services.sh $name $ch
 
 else
-	num=$(grep -w "$name" appointments.txt | cut -d " " -f 3)
 
 	show_appoint(){
                  flag=0
@@ -110,12 +111,13 @@ else
 
 				if [ $cancel -le $num ]; then
 					sed -i "s/$name \[ $num \]/$name \[ $(($num-1)) \]/" appointments.txt
-					del=$(grep -A $cancel "$name" appointments.txt | awk 'END {print}' )
+					del=$(grep -A $cancel -w "$name" appointments.txt | awk 'END {print}' )
 					sed -i "/$del/d" appointments.txt
 				else
 					del=$(awk "NR == $((cancel-num)) {print}" receipt.txt)
 					sed -i "/$del/d" receipt.txt
 				fi
+				num=$((num - 1))
 				printf "Your appointment has been canceled successfully upon your request\n\n"
 			fi
 		;;
@@ -192,8 +194,7 @@ echo "Thank you for choosing our clinic. Hava a nice day!"
 # services from "receipt.txt" to "appointments.txt" {
 
 added=$(cat receipt.txt | wc -l)
-sed -i "s/$name \[ $num \]/$name \[ $(($num+$added)) \]/" appointments.txt
-
+sed -i "s/$name \[ $num \]/$name \[ $(($num + $added)) \]/" appointments.txt
 while read line; do
         sed -i "/$name /a\
 $line" appointments.txt
