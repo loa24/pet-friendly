@@ -14,26 +14,19 @@ if [ ! -f "$services_file" ]; then
 fi
 
 # Read the service name and price from the file
-chosen_service=$(awk -v num="$service_number" '$1 == num {print $2}' "$services_file")
-service_price=$(awk -v num="$service_number" '$1 == num {print $3}' "$services_file")
+chosen_service=$(grep "^$service_number)" services.txt | cut -d ")" -f 2 | cut -d "(" -f 1)
+chosen_service=${chosen_service:1:-1}
+
+service_price=$(grep "^$service_number" services.txt | cut -d "(" -f 2)
+service_price=${service_price:1:2}
+
 # Prompt the user for the appointment date
 read -p "Enter the date of your appointment (YYYY-MM-DD): " appointment_date
 
 # Save the appointment information to a receipt file
-echo "Chosen Service: $chosen_service" >> receipt.txt
-echo "Service Price: $service_price SAR" >> receipt.txt
-echo "Appointment Date: $appointment_date" >> receipt.txt
-echo "------------------------" >> receipt.txt
+echo "$chosen_service, $appointment_date, ( $service_price SAR )" >> receipt.txt
 
 # Print the selected service and appointment date
 echo "You have selected '$chosen_service' (Price: $service_price SAR) on $appointment_date."
 
-# Ask the user if they want to add more services
-read -p "Do you want to add more services? (y/n) " add_more
-
-# If the user wants to add more services, loop back to the beginning
-if [ "$add_more" = "y" ]; then
-    ./services.sh "$user_name"
-else
-   echo "Thank you for using our services!"
-fi
+echo "Thank you for using our services!"

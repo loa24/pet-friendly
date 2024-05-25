@@ -1,21 +1,11 @@
 
 
 
-Jana [ 5 ] :
-Only me now please (66 SAR )
-new second service, also information, ( 43 SAR )
-first service name, needed information, other iformation, ( 35 SAR )
-first service ( 29 SAR )
-new second service ( 56 SAR )
+Jana [ 1 ] :
+Teeth cleaning, 2024-05-01, ( 15 SAR )
 
 
-Lama [ 5 ] :
-new second service, also information, ( 43 SAR )
-first service name, needed information, other iformation, ( 35 SAR )
-new second service, also information, ( 43 SAR )
-first service name, needed information, other iformation, ( 35 SAR )
-new second service, also information, ( 43 SAR )
+Lama [ 0 ] :
 
 
-Lamar [ 1 ] :
-am I printed? ( 22 SAR )
+Lamar [ 0 ] :

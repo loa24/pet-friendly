@@ -1,23 +1,20 @@
 ** Clinic services: **
 1) Emergency ( 30 SAR )
-2) Annual_checkup ( 30 SAR )
+2) Annual checkup ( 30 SAR )
 3) Vaccinations ( 50 SAR )
 4) Hostelry ( 40 SAR )
 
 ** Home services **
 5) Shaving ( 10 SAR )
 6) Showers ( 15 SAR )
-7) Ear_cleaning ( 10 SAR )
-8) Nails_trimming ( 20 SAR )
-9) Teeth_cleaning ( 15 SAR )
-
-** Online services **
-10) Online meeting with a doctor ( 20 SAR )
+7) Ear cleaning ( 10 SAR )
+8) Nails trimming ( 20 SAR )
+9) Teeth cleaning ( 15 SAR )
 
 ** General services **
-11) Show appointments
-12) Cancel appointment
-13) Report about an animal in need
+10) Show appointments
+11) Cancel appointment
+12) Report about an animal in need
 
 ** Payment **
-14) exit and proceed to payment
+13) exit and proceed to payment

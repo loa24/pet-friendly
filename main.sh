@@ -32,7 +32,7 @@ fi
 
 # } end of login & sign in
 
-# printf "" > receipt.txt # receipt.txt serves as a buffer to store requested services by the user
+printf "" > receipt.txt # receipt.txt serves as a buffer to store requested services by the user
 
 # provide services to user {
 ext=0
@@ -43,16 +43,13 @@ cat services.txt
 read ch
 echo " "
 
-while [ $ch -lt 1 ] || [ $ch -gt 14 ] 2> /dev/null; do # troubleshoot for invalid entries
+while [ $ch -lt 1 ] || [ $ch -gt 13 ] 2> /dev/null; do # troubleshoot for invalid entries
 	read -p "Please enetr a valid number: " ch
 done
 
-if [ $ch -ge 1 ] && [ $ch -le 4 ]; then
-	printf "" #  Clinik services
-	./services.sh $name $ch
+if [ $ch -ge 1 ] && [ $ch -le 9 ]; then
 
-elif [ $ch -le 9 ]; then
-	printf "" # Home services
+	bash services.sh $name $ch
 
 else
 	num=$(grep -w "$name" appointments.txt | cut -d " " -f 3)
@@ -66,11 +63,11 @@ else
                          echo " "
                  fi
 
+		 count=$num
                  if [ -s "receipt.txt" ]; then
                          echo "Unpayed appointments:"
-                         count=$num
                          while read line; do
-                                 count=$((count + 1))
+				 count=$((count + 1))
                                  echo "$count) $line"
                          done < receipt.txt
                          flag=1
@@ -83,18 +80,15 @@ else
                 fi
 	}
 
-	
+
 
 
 	case $ch in
-		"10") # do something
-		;;
-
-		"11")
+		"10")
 			show_appoint
 		;;
 
-		"12") # //
+		"11")
 			echo "Please choose the appointment you want to cancel by entering its number: "
 			show_appoint
 			read cancel
@@ -116,7 +110,7 @@ else
 
 				if [ $cancel -le $num ]; then
 					sed -i "s/$name \[ $num \]/$name \[ $(($num-1)) \]/" appointments.txt
-					del=$(grep -A $num "$name" appointments.txt | awk 'END {print}' )
+					del=$(grep -A $cancel "$name" appointments.txt | awk 'END {print}' )
 					sed -i "/$del/d" appointments.txt
 				else
 					del=$(awk "NR == $((cancel-num)) {print}" receipt.txt)
@@ -126,19 +120,21 @@ else
 			fi
 		;;
 
-		"13") # //
+		"12")
+			bash animals_reports.sh $name
 		;;
 
-		"14")
+		"13")
 			ext=1
 		;;
 	esac
 
 fi
 
-if [ $ch -ne 14 ]; then
+if [ $ch -ne 13 ]; then
 	printf "\nWould you like another service?\n"
 	read -p "Enter \"Y\" for yes or \"N\" for no: " ans
+	echo ""
 
 	if [ $ans != "Y" ] && [ $ans  != "y" ]; then
 		ext=1
@@ -149,30 +145,44 @@ done
 # } end of services providing
 
 # payment {
-		# calc total here
+
+total=0
+while read line; do
+        price=$(echo $line | cut -d "(" -f 2 | cut -d " " -f 2)
+        total=$((total + price))
+done < receipt.txt
+
+if [ $total -ne 0 ]; then
+	printf "Here's your receipt:\n\n"
+	cat receipt.txt
+	printf "\nYour total is: $total\n"
 
 
-printf "Would you like to pay with:\n1-Cash\n2-Credit Card\n"
-read pay
+	printf "Would you like to pay with:\n1-Cash\n2-Credit Card\n"
+	read pay
 
-while [ $pay -ne 1 ] && [ $pay -ne 2 ] 2> /dev/null; do
-	read -p "Please enter a valid number: " pay
-done
+	while [ $pay -ne 1 ] && [ $pay -ne 2 ] 2> /dev/null; do
+		read -p "Please enter a valid number: " pay
+	done
 
-case $pay in
+	case $pay in
 
-	"1")
-		echo "You would be able to pay once you recieve the service"
-	;;
+		"1")
+			echo "You would be able to pay once you recieve the service"
+		;;
 
-	"2")
-		read -p "please enter your card number: " cardNum
-		read -p "Please enter the name on the card: " cardName
-		read -p "please enter the expiration date of the card in this format YY/MM: " cardDate
+		"2")
+			read -p "please enter your card number: " cardNum
+			read -p "Please enter the name on the card: " cardName
+			read -p "please enter the expiration date of the card in this format YY/MM: " cardDate
 
-		printf "\nThe payment process has been completed successfully\n"
-	;;
-esac
+			printf "\nThe payment process has been completed successfully\n"
+		;;
+	esac
+
+else
+	echo "You have not booked any new appointments"
+fi
 
 echo "Thank you for choosing our clinic. Hava a nice day!"
 

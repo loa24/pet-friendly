@@ -23,4 +23,4 @@ report_animal_in_need(){
         echo "Thank you for your report, $name. The information has been saved"
 }
 
-
+report_animal_in_need $1

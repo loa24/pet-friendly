@@ -2,3 +2,7 @@ Name: Lama
 Description: A small brown dog with a blue collar
 Location: Main Street near the park
 ------------------------
+Name: Lama
+Description: 3 kittens with no mother
+Location: Umm Al-Qura University, Al-Zaher
+----------------------
